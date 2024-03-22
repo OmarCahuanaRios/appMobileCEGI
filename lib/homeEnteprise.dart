@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_receptions/visitList.dart';
 import 'package:mobile_receptions/workerList.dart';
+import 'package:mobile_receptions/visitantList.dart';
 
 class HomeEnterpriseScreen extends StatelessWidget {
   final String enterpriseName;
@@ -52,7 +53,11 @@ class HomeEnterpriseScreen extends StatelessWidget {
             SizedBox(height: 10.0),
             ElevatedButton(
               onPressed: () {
-                // Acción al presionar el botón "Visitantes"
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VisitantListScreen(enterpriseName: enterpriseName)),
+                    );
               },
               child: Text('Visitantes'),
             ),

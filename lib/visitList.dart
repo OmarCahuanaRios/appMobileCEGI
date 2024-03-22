@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_receptions/createVisit.dart';
 import 'package:mobile_receptions/createWorker.dart';
-import 'package:mobile_receptions/workerDetail.dart';
+import 'package:mobile_receptions/visitDetail.dart'; // Importa la pantalla VisitDetailScreen
 
 class VisitListScreen extends StatefulWidget {
   final String enterpriseName;
@@ -18,7 +18,7 @@ class VisitListScreen extends StatefulWidget {
 class _VisitListScreenState extends State<VisitListScreen> {
   List visits = [];
   String? selectedArea;
-  String? selectedStatus; // Nuevo campo para almacenar el estado seleccionado
+  String? selectedStatus;
 
   @override
   void initState() {
@@ -34,12 +34,10 @@ class _VisitListScreenState extends State<VisitListScreen> {
 
     if (responseData.statusCode == 200) {
       setState(() {
-         print("ESTAS SON TODAS LAS VISITAS");
         visits = json.decode(responseData.body) ?? [];
-         print(visits);
       });
     } else {
-      print("Error al obtener la lista de trabajadores. Código de estado: ${responseData.statusCode}");
+      print("Error al obtener la lista de visitas. Código de estado: ${responseData.statusCode}");
     }
   }
 
@@ -47,7 +45,8 @@ class _VisitListScreenState extends State<VisitListScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CreateVisitScreen(enterpriseName: widget.enterpriseName,)),
+        builder: (context) => CreateVisitScreen(enterpriseName: widget.enterpriseName,),
+      ),
     );
   }
 
@@ -116,7 +115,7 @@ class _VisitListScreenState extends State<VisitListScreen> {
                               selectedStatus = newValue!;
                             });
                           },
-                          items: <String>['Activo', 'Inactivo'] // Lista de estados
+                          items: <String>['Activo', 'Inactivo']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -136,58 +135,30 @@ class _VisitListScreenState extends State<VisitListScreen> {
               itemCount: visits.length,
               itemBuilder: (context, index) {
                 var visit = visits[index];
-                // Aplicar filtro por estado
                 if (selectedStatus != null &&
                     visit['status'] != selectedStatus) {
-                  return SizedBox.shrink(); // Ocultar elemento si no coincide con el estado seleccionado
+                  return SizedBox.shrink();
                 }
-                Icon iconData;
-                Color iconColor = Colors.black;
-                // Determinar el color del círculo según el estado de la visita
-                switch (visit['status']) {
-                          case 'Aceptado':
-                            iconData = Icon(Icons.check); // Ícono de verificación (check) para estado Aceptado
-                            iconColor = Colors.green;
-                            break;
-                          case 'Rechazado':
-                            iconData = Icon(Icons.close); // Ícono de cierre (x) para estado Rechazado
-                            iconColor = Colors.red;
-                            break;
-                          case 'Pendiente':
-                            iconData = Icon(Icons.warning); // Ícono de advertencia (warning) para estado Pendiente
-                            iconColor = Colors.yellow;
-                            break;
-                          default:
-                            iconData = Icon(Icons.error); // Ícono de error por defecto
-                        }
                 return Card(
                   margin: EdgeInsets.all(10.0),
-                  child: Stack(
-                    children: [
-                      ListTile(
-                        // Eliminamos CircleAvatar
-                        title: Text(
-                                '${visit['visitant']['firstName']} ${visit['visitant']['lastName'] ?? ''}',
-                                style: TextStyle(fontWeight: FontWeight.bold), // Aplicar negrita al nombre del visitante
-                              ),
-                              subtitle: Text(
-                                'Fecha: ${visit['appointmentDate']}     Hora: ${visit['appointmentHour']}',
-                                style: TextStyle(fontWeight: FontWeight.bold), // Aplicar negrita a la fecha y hora
-                              ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkerDetailScreen(workerId: visit['id'].toString(),)),
-                          );
-                        },
-                        trailing : Icon(
-                          iconData.icon,
-                          color: iconColor,
+                  child: ListTile(
+                    title: Text(
+                      '${visit['visitant']['firstName']} ${visit['visitant']['lastName'] ?? ''}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      'Fecha: ${visit['appointmentDate']}     Hora: ${visit['appointmentHour']}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VisitDetailScreen(visitId: visit['id'].toString()), // Pasa el ID de la visita
                         ),
-                      ),
-                      
-                    ],
+                      );
+                    },
+                    trailing: Icon(Icons.arrow_forward_ios),
                   ),
                 );
               },
@@ -197,7 +168,7 @@ class _VisitListScreenState extends State<VisitListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _createWorker,
-        child: Icon(Icons.add), // Utiliza el icono de añadir de la biblioteca de iconos de Flutter
+        child: Icon(Icons.add),
       ),
     );
   }
