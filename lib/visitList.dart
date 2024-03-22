@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_receptions/createVisit.dart';
 import 'package:mobile_receptions/createWorker.dart';
 import 'package:mobile_receptions/workerDetail.dart';
 
@@ -43,11 +44,11 @@ class _VisitListScreenState extends State<VisitListScreen> {
   }
 
   void _createWorker() {
-    /*Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Newvisitscreen(enterpriseName: widget.enterpriseName)),
-    );*/
+        builder: (context) => CreateVisitScreen(enterpriseName: widget.enterpriseName,)),
+    );
   }
 
   @override
@@ -140,16 +141,39 @@ class _VisitListScreenState extends State<VisitListScreen> {
                     visit['status'] != selectedStatus) {
                   return SizedBox.shrink(); // Ocultar elemento si no coincide con el estado seleccionado
                 }
+                Icon iconData;
+                Color iconColor = Colors.black;
                 // Determinar el color del círculo según el estado de la visita
-                Color circleColor = visit['status'] ? Colors.green : Colors.red;
+                switch (visit['status']) {
+                          case 'Aceptado':
+                            iconData = Icon(Icons.check); // Ícono de verificación (check) para estado Aceptado
+                            iconColor = Colors.green;
+                            break;
+                          case 'Rechazado':
+                            iconData = Icon(Icons.close); // Ícono de cierre (x) para estado Rechazado
+                            iconColor = Colors.red;
+                            break;
+                          case 'Pendiente':
+                            iconData = Icon(Icons.warning); // Ícono de advertencia (warning) para estado Pendiente
+                            iconColor = Colors.yellow;
+                            break;
+                          default:
+                            iconData = Icon(Icons.error); // Ícono de error por defecto
+                        }
                 return Card(
                   margin: EdgeInsets.all(10.0),
                   child: Stack(
                     children: [
                       ListTile(
                         // Eliminamos CircleAvatar
-                        title: Text(visit['firstName'] + " " + visit['lastName'] ?? ''),
-                        subtitle: Text(visit['visitDate'] ?? ''), // Mostrar la fecha de visita
+                        title: Text(
+                                '${visit['visitant']['firstName']} ${visit['visitant']['lastName'] ?? ''}',
+                                style: TextStyle(fontWeight: FontWeight.bold), // Aplicar negrita al nombre del visitante
+                              ),
+                              subtitle: Text(
+                                'Fecha: ${visit['appointmentDate']}     Hora: ${visit['appointmentHour']}',
+                                style: TextStyle(fontWeight: FontWeight.bold), // Aplicar negrita a la fecha y hora
+                              ),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -157,22 +181,12 @@ class _VisitListScreenState extends State<VisitListScreen> {
                                 builder: (context) => WorkerDetailScreen(workerId: visit['id'].toString(),)),
                           );
                         },
-                      ),
-                      Positioned(
-                        right: 4.0,
-                        top: 10.0,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 14.0, right: 13.0),
-                          width: 20.0,
-                          height: 20.0,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: circleColor,
-                            border: Border.all(color: Colors.black, width: 1.5), // Agregar borde negro
-                          ),
+                        trailing : Icon(
+                          iconData.icon,
+                          color: iconColor,
                         ),
                       ),
+                      
                     ],
                   ),
                 );
