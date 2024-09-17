@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_receptions/homeEnteprise.dart';
-
+import 'package:mobile_receptions/visitList.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -11,10 +11,14 @@ class LoginPage extends StatelessWidget {
 
   void login(String email, String password, BuildContext context) async {
     const apiUrl = 'http://192.168.1.36:8090/auth/authenticate';
+    print("entra esta ");
      final Map<String, String> body = {
       'email': email,
       'password': password,
     };
+
+    print("cuerpito");
+    print(body);
 
     final response =
         await http.post(Uri.parse(apiUrl), body: jsonEncode(body), headers: {
@@ -23,6 +27,8 @@ class LoginPage extends StatelessWidget {
     });
 
     Map<String, dynamic> respuesta = json.decode(response.body);
+    print("RESPUESTA");
+    print(response.statusCode);
 
      if (response.statusCode == 200) {
 
@@ -35,16 +41,20 @@ class LoginPage extends StatelessWidget {
           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomeEnterpriseScreen(enterpriseName: enterpriseName,)),
+                          builder: (context) => HomeEnterpriseScreen(enterpriseName: enterpriseName)),
                     );
         }
 
-      } else {
-      print("Error al hacer login");
-     }
+        if ( role == "ROLE_ADMIN"){
+          Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VisitListScreen(enterpriseName: enterpriseName,role: role)),
+                    );
+        }
 
   }
-
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

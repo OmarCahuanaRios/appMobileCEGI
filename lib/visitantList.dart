@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_receptions/visitantDetail.dart';
 
 class VisitantListScreen extends StatefulWidget {
   String enterpriseName;
@@ -47,8 +48,16 @@ class _VisitantListScreenState extends State<VisitantListScreen> {
             margin: EdgeInsets.all(10.0),
             child: ListTile(
               title: Text('${visitante['firstName']} ${visitante['lastName'] ?? ''}'),
+               subtitle: Text('DNI: ${visitante['documentId']}'),
               onTap: () {
-                // Aquí puedes navegar a la pantalla de detalles del visitante
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VisitanteDetailScreen(
+                            visitantId: visitante['id'].toString(),
+                          ),
+                        ),
+                      );
               },
             ),
           );

@@ -12,7 +12,6 @@ class CreateVisitScreen extends StatefulWidget {
 }
 
 class _CreateVisitScreenState extends State<CreateVisitScreen> {
-  // Controladores para los campos de texto
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   TextEditingController _firstNameController = TextEditingController();
@@ -87,14 +86,14 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
     initialTime: TimeOfDay.now(),
     builder: (BuildContext context, Widget? child) {
       return MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), // Utilizar formato de 24 horas
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
         child: child!,
       );
-    }, // Hora actual como hora inicial
+    }, 
   );
   if (pickedTime != null) {
     setState(() {
-      _timeController.text = pickedTime.format(context); // Formatear la hora seleccionada
+      _timeController.text = pickedTime.format(context);
     });
   }
 }
@@ -102,7 +101,6 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
 
   @override
   void dispose() {
-    // Limpiar los controladores al eliminar el widget
     _dateController.dispose();
     _timeController.dispose();
     _firstNameController.dispose();
@@ -136,7 +134,7 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
                     },
                   ),
                 ),
-                readOnly: true, // Hacer que el campo de texto sea de solo lectura
+                readOnly: true,
               ),
               SizedBox(height: 10.0),
              TextField(
@@ -144,9 +142,9 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
                     decoration: InputDecoration(
                       labelText: 'Hora de Cita',
                       prefixIcon: IconButton(
-                        icon: Icon(Icons.access_time), // Icono de reloj
+                        icon: Icon(Icons.access_time),
                         onPressed: () {
-                          _selectTime(context); // Método para abrir el selector de hora
+                          _selectTime(context); 
                         },
                       ),
                     ),
@@ -178,7 +176,7 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
                           }).toList(),
                           decoration: InputDecoration(
                             labelText: 'Tipo de Documento',
-                            prefixIcon: Icon(Icons.assignment_ind), // Icono para el campo de tipo de documento
+                            prefixIcon: Icon(Icons.assignment_ind),
                           ),
                         ),
 
@@ -186,9 +184,9 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
               TextField(
                 controller: _documentNumberController,
                 decoration: InputDecoration(labelText: 'Número de Documento',prefixIcon: Icon(Icons.format_list_numbered)),
-                keyboardType: TextInputType.number, // Esto mostrará un teclado numérico
+                keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly // Esto permitirá solo números
+                  FilteringTextInputFormatter.digitsOnly
                 ],
               ),
               SizedBox(height: 10.0),
@@ -200,8 +198,6 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Aquí puedes manejar la lógica para guardar la visita
-                  // Puedes acceder a los valores de los campos usando los controladores:
                   String date = _dateController.text;
                   String time = _timeController.text;
                   String firstName = _firstNameController.text;
@@ -210,8 +206,6 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
                   String email = _emailController.text;
 
                   createVisit(date, time, firstName, lastName, _documentTypeValue, documentNumber, email);
-
-                  // Luego puedes enviar esta información a donde sea necesario
                 },
                 child: Text('Guardar Visita'),
               ),
@@ -222,13 +216,12 @@ class _CreateVisitScreenState extends State<CreateVisitScreen> {
     );
   }
 
-  // Método para mostrar el date picker y actualizar la fecha seleccionada
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)), // Un año a partir de hoy
+      lastDate: DateTime.now().add(Duration(days: 365)),
     );
     if (pickedDate != null) {
       String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);

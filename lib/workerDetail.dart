@@ -39,7 +39,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
       appBar: AppBar(
         title: Text('Detalles del Trabajador'),
       ),
-      body: Center( // Envuelve la columna principal en un Center
+      body: Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20.0),
@@ -49,7 +49,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                 CircleAvatar(
                   radius: 50,
                   backgroundImage: AssetImage(
-                      'assets/worker_avatar.png'), // Aquí puedes proporcionar la ruta de la imagen del trabajador
+                      'assets/worker_avatar.png'),
                 ),
                 SizedBox(height: 20.0),
                 Padding(
@@ -57,7 +57,7 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                   child: Text(
                     '${worker['firstName']} ${worker['lastName']}',
                     style: TextStyle(
-                      fontSize: 24.0, // Tamaño del texto aumentado
+                      fontSize: 24.0, 
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,

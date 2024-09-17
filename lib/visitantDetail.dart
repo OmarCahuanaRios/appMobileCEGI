@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class VisitanteDetailScreen extends StatefulWidget {
-  final String visitanteId;
+  final String visitantId;
 
-  VisitanteDetailScreen({required this.visitanteId});
+  VisitanteDetailScreen({required this.visitantId});
 
   @override
   _VisitanteDetailScreenState createState() => _VisitanteDetailScreenState();
@@ -21,7 +21,7 @@ class _VisitanteDetailScreenState extends State<VisitanteDetailScreen> {
   }
 
   void getVisitanteById() async {
-    String apiUrl = 'http://192.168.1.36:8090/visitant/${widget.visitanteId}';
+    String apiUrl = 'http://192.168.1.36:8090/visitant/${widget.visitantId}';
     final responseData = await http.get(Uri.parse(apiUrl));
     setState(() {
       visitante = json.decode(responseData.body);
@@ -65,7 +65,7 @@ class _VisitanteDetailScreenState extends State<VisitanteDetailScreen> {
             ),
             SizedBox(height: 10.0),
             Text(
-              'Nombre de la Empresa: ${visitante['enterpriseName'] ?? ''}',
+              'Nombre de la Empresa: ${visitante['enterprise'] != null ? visitante['enterprise']['enterpriseName'] : 'No disponible'}',
               style: TextStyle(fontSize: 18.0),
             ),
           ],

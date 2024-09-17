@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65740183129",
+    "project_id": "zox-receptions",
+    "storage_bucket": "zox-receptions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65740183129:android:0a7cc223c6a2f4e00c4348",
+        "android_client_info": {
+          "package_name": "com.example.mobile_receptions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaWcEUXXlwqhcdThOH25j3EwbPy2DlZq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

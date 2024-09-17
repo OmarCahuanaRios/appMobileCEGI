@@ -17,7 +17,7 @@ class WorkerListScreen extends StatefulWidget {
 class _WorkerListScreenState extends State<WorkerListScreen> {
   List workers = [];
   String? selectedArea;
-  String? selectedStatus; // Nuevo campo para almacenar el estado seleccionado
+  String? selectedStatus; 
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                               selectedStatus = newValue!;
                             });
                           },
-                          items: <String>['Activo', 'Inactivo'] // Lista de estados
+                          items: <String>['Activo', 'Inactivo']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -133,12 +133,11 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
               itemCount: workers.length,
               itemBuilder: (context, index) {
                 var worker = workers[index];
-                // Aplicar filtro por estado
                 if (selectedStatus != null &&
                     worker['status'] != selectedStatus) {
-                  return SizedBox.shrink(); // Ocultar elemento si no coincide con el estado seleccionado
+                  return SizedBox.shrink(); 
                 }
-                // Determinar el color del círculo según el estado del trabajador
+               
                 Color circleColor =
                     worker['status'] ? Colors.green : Colors.red;
                 return Card(
@@ -168,7 +167,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: circleColor,
-                            border: Border.all(color: Colors.black, width: 1.5), // Agregar borde negro
+                            border: Border.all(color: Colors.black, width: 1.5),
                           ),
                         ),
                       ),
@@ -182,7 +181,7 @@ class _WorkerListScreenState extends State<WorkerListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _createWorker,
-        child: Icon(Icons.add), // Utiliza el icono de añadir de la biblioteca de iconos de Flutter
+        child: Icon(Icons.add),
       ),
     );
   }

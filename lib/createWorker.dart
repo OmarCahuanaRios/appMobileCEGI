@@ -181,9 +181,6 @@ class _NewWorkerScreenState extends State<NewWorkerScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Aquí puedes realizar la acción de guardar el nuevo trabajador
-                    // Por ejemplo, puedes enviar los datos a una API
-                    // Una vez guardado, puedes navegar a otra pantalla o realizar alguna acción adicional
                     createWorker(_selectedDocumentType, firstNameController.text, lastNameController.text, emailController.text, documentNumberController.text, areaController.text);
                   }
                 },

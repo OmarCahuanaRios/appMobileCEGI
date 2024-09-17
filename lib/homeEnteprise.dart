@@ -34,7 +34,7 @@ class HomeEnterpriseScreen extends StatelessWidget {
                Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VisitListScreen(enterpriseName: enterpriseName)),
+                          builder: (context) => VisitListScreen(enterpriseName: enterpriseName, role: "ROLE_ENTERPRISE")),
                     );
               },
               child: Text('Visitas'),

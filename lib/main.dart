@@ -1,10 +1,20 @@
 // main.dart
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_receptions/firebase.dart';
 import 'dart:async';
-
 import 'package:mobile_receptions/login.dart'; 
 
-void main() {
+void main() async { 
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: 'AIzaSyARxnyflEG4nOYhV51fgQbrTeVnCA07Dds',
+       appId: '1:65740183129:ios:4554b485edf9092a0c4348', 
+       messagingSenderId: '65740183129', 
+       projectId: 'zox-receptions')
+  );
+  await FireBaseApi().initNotifications();
   runApp(MyApp());
 }
 
@@ -27,8 +37,6 @@ class _PrimeraVistaState extends State<PrimeraVista> {
   @override
   void initState() {
     super.initState();
-    
-    // Retrasa la navegación a la segunda vista después de 3 segundos
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
